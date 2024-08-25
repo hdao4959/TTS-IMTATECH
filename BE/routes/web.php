@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +26,7 @@ Route::prefix('admin')->as('admin.')->group(function() {
     })->name('dashboard');
     
     Route::resource('posts', PostController::class);
+    Route::resource('users', UserController::class);
+    Route::get('/user/{id}', [UserController::class, 'active']);
+
 });
