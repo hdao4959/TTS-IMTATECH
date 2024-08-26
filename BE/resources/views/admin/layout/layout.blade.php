@@ -60,16 +60,28 @@
                             </a>
                         </li>
                         <li class="nav-item">
+<<<<<<< HEAD
                             <a class="nav-link" href="#">
+=======
+                            <a class="nav-link" href="{{ route('admin.categories.index') }}">
+>>>>>>> d8f7330d8926e641b314c1c19d565f5b23f24d87
                                 <i class="bi bi-box"></i> Danh mục
                             </a>
                         </li>
                         <li class="nav-item">
+<<<<<<< HEAD
                             <a class="nav-link" href="{{ route('admin.users.index')}}">
                                 <i class="bi bi-people"></i> Tài khoản
                             </a>
                         </li>
                      
+=======
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-people"></i> Tài khoản
+                            </a>
+                        </li>
+
+>>>>>>> d8f7330d8926e641b314c1c19d565f5b23f24d87
                     </ul>
                 </div>
             </nav>
@@ -87,4 +99,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> d8f7330d8926e641b314c1c19d565f5b23f24d87
