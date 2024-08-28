@@ -17,6 +17,9 @@ class Post extends Model
         'description',
         'content',
         'view',
+        'category_id',
+        'post_status_id',
+        'user_id'
     ];
 
     public function category(){
@@ -25,5 +28,9 @@ class Post extends Model
 
     public function post_status(){
         return $this->belongsTo(Post_status::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

@@ -3,7 +3,10 @@
     Danh sách bài viết
 @endsection
 @section('content')
-<button class="btn btn-success">Thêm mới</button>
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    <a href="{{ route('admin.posts.create') }}" class="btn btn-success">Thêm mới</a>
     <table class="table">
         <thead>
             <tr>
@@ -24,15 +27,28 @@
                     ++$row;
                 @endphp
                 <tr>
-                    <td>{{ $row  }}</td>
+                    <td>{{ $row }}</td>
                     <td>{{ Str::limit($post->title, 50, '...') }}</td>
-                    <td><img src="{{ $post->img_thumbnail }}" width="100" alt=""></td>
+                    <td>
+                        @php
+                            if (str_contains($post->img_thumbnail, 'http')) {
+                                $img_thumbnail = $post->img_thumbnail;
+                            } else {
+                                $img_thumbnail = Storage::url($post->img_thumbnail);
+                            }
+                        @endphp
+                        <img src="{{ $img_thumbnail }}" width="100" alt="">
+                    </td>
                     <td>{{ $post->category->name }}</td>
                     <td>{{ $post->view }}</td>
                     <td class="">
-                        <button class="btn btn-sm btn-secondary">Chi tiết</button>
-                        <button class="btn btn-sm btn-warning">Sửa</button>
-                        <button class="btn btn-sm btn-danger">Xoá</button>
+                        <form action="{{ route('admin.posts.destroy', $post->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <a href="{{ route('admin.posts.show', $post->id) }}" class="btn btn-sm btn-secondary">Chi tiết</a>
+                            <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-sm btn-warning">Sửa</a>
+                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xoá không?')" class="btn btn-sm btn-danger">Xoá</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
