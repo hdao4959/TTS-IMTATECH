@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,21 +18,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
-
-Route::get('login', [AuthController::class, 'formLogin'])->name('login');
-Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::get('logout',[AuthController::class, 'logout'])->name('logout');
-Route::get('register', [AuthController::class, 'formRegister'])->name('register');
-Route::post('/subregister', [AuthController::class, 'subregister'])->name('subregister');
+});
 
 
-
-
-
-Route::middleware('role:5')
-    ->prefix('admin')->as('admin.')->group(function () {
-    Route::get('/', function () {
+Route::prefix('admin')->as('admin.')->group(function() {
+    Route::get('/', function() {
         return view('admin.dashboard');
     })->name('dashboard');
 
@@ -41,4 +30,5 @@ Route::middleware('role:5')
     Route::resource('posts', PostController::class);
     Route::resource('users', UserController::class);
     Route::get('/user/{id}', [UserController::class, 'active']);
+
 });
