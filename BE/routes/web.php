@@ -19,20 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
-
-Route::get('login', [AuthController::class, 'formLogin'])->name('login');
-Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::get('logout',[AuthController::class, 'logout'])->name('logout');
-Route::get('register', [AuthController::class, 'formRegister'])->name('register');
-Route::post('/subregister', [AuthController::class, 'subregister'])->name('subregister');
+});
 
 
 
 
 
-Route::middleware('role:5')
-    ->prefix('admin')->as('admin.')->group(function () {
+Route::prefix('admin')->as('admin.')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
     })->name('dashboard');
