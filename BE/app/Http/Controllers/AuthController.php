@@ -77,7 +77,7 @@ class AuthController extends Controller
         $data['avatar'] = '';
         //nếu user nhập ảnh
         if (request()->hasFile('avatar')) {
-            $path_img = $request->file('avatar')->store('images', 'public');
+            $path_img = $request->file('avatar')->store('avatar', 'public');
             $data['avatar'] = $path_img;
         }
 
