@@ -21,6 +21,7 @@ Route::get('/', function () {
     return view('client/layout.layout');
 })->name('home');
 
+
 Route::get('login', [AuthController::class, 'formLogin'])->name('login');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::get('logout',[AuthController::class, 'logout'])->name('logout');
