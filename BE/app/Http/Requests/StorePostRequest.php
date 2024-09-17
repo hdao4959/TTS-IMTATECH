@@ -24,7 +24,7 @@ class StorePostRequest extends FormRequest
         return [
             
                 'title' => ['required'],
-                'img_thumbnail' => ['nullable', 'image'],
+                'img_thumbnail' => ['required', 'image'],
                 'category_id' => ['required'],
                 'description' => ['required', 'max:150'],
                 'content' => ['required'],
@@ -35,6 +35,7 @@ class StorePostRequest extends FormRequest
     public function messages(){
         return [
             'title.required' => "Bạn chưa nhập Tiêu đề",
+            'img_thumbnail.required' => "Bạn chưa chọn hình ảnh",
             'img_thumbnail.image' => "Ảnh không đúng định dạng",
             'category_id.required' => "Bạn chưa chọn danh mục",
             'description.required' => "Bạn chưa nhập mô tả",

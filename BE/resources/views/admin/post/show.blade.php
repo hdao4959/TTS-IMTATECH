@@ -58,7 +58,7 @@
 
     <div class="row mt-4">
         <div class="col">
-            <a class="btn btn-warning" href="{{ route('admin.posts.edit ', $post->id) }}">Sửa</a>
+            <a class="btn btn-warning" href="{{ route('admin.posts.edit', $post->id) }}">Sửa</a>
             <a class="btn btn-secondary" href="{{ route('admin.posts.index') }}">Quay lại</a>
         </div>
     </div>

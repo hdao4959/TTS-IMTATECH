@@ -4,6 +4,9 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Client\CommentController;
+use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\PostController as ClientPostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +20,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('client/layout.layout');
-})->name('home');
+Route::get('/', [HomeController::class, 'homePage'])->name('home');
+Route::get('/post/{slug}', [ClientPostController::class, 'detail'])->name('post.detail');
+Route::get('/add-post', [ClientPostController::class, 'create']);
+Route::post('/post/store', [ClientPostController::class, 'store'])->name('store');
+Route::post('/comment/store', [CommentController::class, 'store'])->name('comment.store');
+Route::delete('/comment/{id}',[CommentController::class, 'destroy'])->name('comment.delete');
+Route::get('/cate/{slug}', [HomeController::class, 'categoryPage'])->name('category.detail');
 
 
 Route::get('login', [AuthController::class, 'formLogin'])->name('login');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -10,9 +12,21 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function homePage()
     {
-        //
+        $numberPostsInMain = 4;
+        $mainPosts = Post::paginate($numberPostsInMain);
+    
+        return view('client.home', compact('mainPosts'));
+    }
+
+    public function categoryPage(string $slug){
+        $category = Category::where('slug', $slug)->firstOrFail();
+        // Lấy các bài viết liên quan đến danh mục 
+        $posts = Post::where([
+            'category_id' => $category->id
+        ])->get();
+        return view('client.category', compact('posts', 'category'));
     }
 
     /**
