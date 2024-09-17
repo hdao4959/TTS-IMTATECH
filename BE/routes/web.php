@@ -28,6 +28,9 @@ Route::get('logout',[AuthController::class, 'logout'])->name('logout');
 Route::get('register', [AuthController::class, 'formRegister'])->name('register');
 Route::post('/subregister', [AuthController::class, 'subregister'])->name('subregister');
 
+Route::get('/profile', function () {
+    return view('client.profile');
+})->name('profile');
 
 
 Route::prefix('admin')->as('admin.')->group(function() {
