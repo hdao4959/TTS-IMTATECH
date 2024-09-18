@@ -21,7 +21,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  Ngày 15/9/2024
+
                 </ul>
                 <div class="d-flex">
                     <button class="btn btn-outline-success me-2" type="button">Login</button>
@@ -46,7 +46,9 @@
                         <a class="nav-link" href="{{ route('category.detail', $cate->slug) }}">{{ $cate->name }}</a>
                     </li>
                     @endforeach
-                  
+                   <li class="nav-item">
+                        <a class="nav-link" href="{{route('profile')}}">Profile</a>
+                    </li>
                   
                 </ul>
                
