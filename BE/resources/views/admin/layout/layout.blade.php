@@ -67,10 +67,16 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.tags.index')}}">
+                                <i class="bi bi-people"></i>Tags
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.users.index')}}">
                                 <i class="bi bi-people"></i> Tài khoản
                             </a>
                         </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout')}}">
                                 <i class="bi bi-people"></i> Đăng xuất
