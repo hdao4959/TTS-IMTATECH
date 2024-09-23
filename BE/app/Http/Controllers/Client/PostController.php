@@ -31,6 +31,7 @@ class PostController extends Controller
             ]
         )->with('user')->get();
         $postsHot = Post::orderBy('view', 'desc')->limit(5)->get();
+        // dd($postsHot);
 
         return view('client.post-detail', compact('post', 'postsHot', 'comments'));
     }

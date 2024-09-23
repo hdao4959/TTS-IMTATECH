@@ -24,7 +24,7 @@
 
                 </ul>
                 <div class="d-flex">
-                    <button class="btn btn-outline-success me-2" type="button">Login</button>
+                    <a href="{{route('login')}}" class="btn btn-outline-success me-2" type="button">Login</a>
                     <button class="btn btn-primary" type="button">Sign Up</button>
                 </div>
             </div>
