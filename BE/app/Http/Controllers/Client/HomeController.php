@@ -16,8 +16,8 @@ class HomeController extends Controller
     {
         $numberPostsInMain = 4;
         $mainPosts = Post::paginate($numberPostsInMain);
-    
-        return view('client.home', compact('mainPosts'));
+        $categories = Category::all();
+        return view('client.home', compact('mainPosts', 'categories'));
     }
 
     public function categoryPage(string $slug){
