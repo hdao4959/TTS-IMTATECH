@@ -23,10 +23,24 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 </ul>
+
+                @if (Auth::user())
+                <div class="">
+                    <a class="nav-link" href="{{route('profile')}}">Profile</a>
+                </div>
+                <div>
+                    <a class="btn btn-outline-danger" href="{{route('logout')}}">Logout</a>
+                </div>
+
+                @else
+                    
                 <div class="d-flex">
                     <a href="{{route('login')}}" class="btn btn-outline-success me-2" type="button">Login</a>
                     <button class="btn btn-primary" type="button">Sign Up</button>
                 </div>
+                @endif
+
+               
             </div>
         </div>
     </nav>
@@ -46,9 +60,7 @@
                         <a class="nav-link" href="{{ route('category.detail', $cate->slug) }}">{{ $cate->name }}</a>
                     </li>
                     @endforeach
-                   <li class="nav-item">
-                        <a class="nav-link" href="{{route('profile')}}">Profile</a>
-                    </li>
+                  
                   
                 </ul>
                
