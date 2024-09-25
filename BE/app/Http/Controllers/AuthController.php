@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -67,7 +68,7 @@ class AuthController extends Controller
     }
     public function subregister(UserRequest $request)
     {
-//         dd(request()->all());
+        //         dd(request()->all());
 
         // đăng ký người dùng vào hệ thống
         $data = $request->validated();
@@ -77,7 +78,7 @@ class AuthController extends Controller
         $data['avatar'] = '';
         //nếu user nhập ảnh
         if (request()->hasFile('avatar')) {
-            $path_img = $request->file('avatar')->store('avatar', 'public');
+            $path_img = $request->file('avatar')->store('avatars', 'public');
             $data['avatar'] = $path_img;
         }
 
@@ -93,4 +94,67 @@ class AuthController extends Controller
         return redirect()->route('login')->with('msg', 'Đăng xuất thành công');
     }
 
+
+
+    //   profile 
+    public function showProfile()
+    {
+        $user = Auth::user();
+        return view('client.profile', compact('user'));
+    }
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        $user = Auth::user();
+
+        $user->name = $request->input('name');
+        $user->description = $request->input('description');
+
+        if ($request->hasFile('avatar')) {
+
+            if ($user->avatar) {
+                Storage::delete('public/' . $user->avatar);
+            }
+
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $avatarPath;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile')->with('success', 'Thông tin của bạn đã được cập nhật.');
+    }
+
+    // Đổi mật khẩu
+
+    public function changePassword(Request $request)
+{
+    // Xác thực dữ liệu đầu vào
+    $validatedData = $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|min:8|different:current_password',
+        'confirm_password' => 'required|same:new_password',
+    ]);
+
+    $user = Auth::user(); // Lấy người dùng đang đăng nhập
+
+    // Kiểm tra mật khẩu hiện tại
+    if (!Hash::check($validatedData['current_password'], $user->password)) {
+        // Thêm lỗi vào mảng lỗi nếu mật khẩu hiện tại không đúng
+        return redirect()->route('profile')->withErrors([
+            'current_password' => 'Mật khẩu hiện tại không đúng.',
+        ]);
+    }
+
+    // Nếu mật khẩu hiện tại đúng, cập nhật mật khẩu mới
+    $user->password = bcrypt($validatedData['new_password']);
+    $user->save();
+
+    return redirect()->route('login')->with('msg', 'Đổi mật khẩu thành công!');
+}
 }

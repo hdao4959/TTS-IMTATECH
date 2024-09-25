@@ -36,9 +36,10 @@ Route::get('logout',[AuthController::class, 'logout'])->name('logout');
 Route::get('register', [AuthController::class, 'formRegister'])->name('register');
 Route::post('/subregister', [AuthController::class, 'subregister'])->name('subregister');
 
-Route::get('/profile', function () {
-    return view('client.profile');
-})->name('profile');
+
+Route::get('profile', [AuthController::class, 'showProfile'])->name('profile');
+Route::post('profile', [AuthController::class, 'updateProfile'])->name('update-profile');
+Route::post('profile/change-password', [AuthController::class, 'changePassword'])->name('change-password');
 
 
 Route::middleware('role:5')
