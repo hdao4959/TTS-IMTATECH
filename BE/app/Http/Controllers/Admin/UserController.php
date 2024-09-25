@@ -36,7 +36,7 @@ class UserController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $imagePath = $request->file('avatar')->store('images', 'public');
+            $imagePath = $request->file('avatar')->store('avatars', 'public');
             $data['avatar'] = $imagePath;
         }
 
@@ -70,7 +70,7 @@ class UserController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $imagePath = $request->file('avatar')->store('images', 'public');
+            $imagePath = $request->file('avatar')->store('avatars', 'public');
             $data['avatar'] = $imagePath;
 
             if ($user->avatar && file_exists(public_path('storage/' . $user->avatar))) {
