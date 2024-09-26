@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TagController extends Controller
 {
@@ -30,23 +32,31 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // dd($request->all());
+        
         $request->validate([
             'name' => 'required|unique:tags,name|max:255',
-            'slug' => 'required|unique:tags,slug|max:255',
+            // 'slug' => 'required|unique:tags,slug|max:255',
+            'slug' => 'unique'
         ],
         [
             'name.required' => 'Tên tag không được để trống.',
             'name.unique' => 'Tên tag đã tồn tại.',
             'name.max' => 'tên tag không được dài quá 255 ký tự',
-            'slug.required' => 'Slug không được để trống.',
+            // 'slug.required' => 'Slug không được để trống.',
             'slug.unique' => 'Slug đã tồn tại.',
-            'slug.max' => 'Slug không được dài quá 255 ký tự',
+            // 'slug.max' => 'Slug không được dài quá 255 ký tự',
         ]
         );
 
-        Tag::create($request->all());
+        $nameTag = $request->name;
+        $slug = Str::slug($nameTag);
+
+        $data = [
+            'name' => $nameTag,
+            'slug' => $slug
+        ];
+
+        Tag::create($data);
         // return redirect()->route('tags.index')->with('success', 'Tag created successfully.');
         return redirect()->route('admin.tags.index')->with('success', 'Thêm mới thành công');
     }
@@ -77,7 +87,6 @@ class TagController extends Controller
         //
         $request->validate([
             'name' => 'required|unique:tags,name,'.$tag->id.'|max:255',
-            'slug' => 'required|unique:tags,slug,'.$tag->id.'|max:255',
         ],
         [
             'name.required' => 'Tên tag không được để trống.',
@@ -88,8 +97,11 @@ class TagController extends Controller
             'slug.max' => 'Slug không được dài quá 255 ký tự',
         ]
         );
-
-        $tag->update($request->all());
+        $data = [
+            'name' => $request->name,
+            'slug' => Str::slug($request->name)
+        ];
+        $tag->update($data);
         return redirect()->back()->with('success', 'Cập nhật thành công');
     }
 

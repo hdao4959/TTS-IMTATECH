@@ -18,11 +18,10 @@
         </div>
         
         <div class="mb-3">
-            <label for="slug" class="form-label">Đường dẫn</label>
-            <input type="text" class="form-control" id="slug" name="slug" required value="{{$tag->slug}}">
-            @error('slug')
-            <span class="text-danger">*{{ $message }}</span>
-            @enderror
+            <label for="slug" class="form-label">Slug</label>
+            <input disabled type="text" class="form-control" id="slug" name="slug"  value="{{$tag->slug}}">
+            
+           
         </div>
         
         <button type="submit" class="btn btn-warning mb-3">Cập nhật</button>
