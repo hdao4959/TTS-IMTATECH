@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,10 +15,11 @@ class HomeController extends Controller
      */
     public function homePage()
     {
-        $numberPostsInMain = 4;
-        $mainPosts = Post::paginate($numberPostsInMain);
+        $numberPostsInMain = 20;
+        $mainPosts = Post::latest()->paginate($numberPostsInMain);
         $categories = Category::all();
-        return view('client.home', compact('mainPosts', 'categories'));
+        $tags = Tag::all();
+        return view('client.home', compact('mainPosts', 'categories', 'tags'));
     }
 
     public function categoryPage(string $slug){

@@ -2,12 +2,33 @@
 @section('title')
     Post Detail
 @endsection
+@section('style')
+<style>
+  #tablet_social {
+    cursor: pointer;
+    position: fixed;
+    bottom: 50%;
+    left: 2%;
+    width: 40px;
+    height: 80px;
+    background-color: #ffffff;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+    #icon_comment{
+        cursor: pointer;
+    }
+    #icon_comment :hover {
+        color: orange;
+    }
+</style>
+@endsection
 @section('content')
+
     <div class="row">
         {{-- Khu vực bên trái --}}
         <div class="left col-md-8">
-            <h1>{{ $post->title }}</h1>
-            <p>{{ $post->description }}</p>
 
             <div class="d-flex align-items-center justify-content-between p-3 rounded">
                 <!-- Avatar Section -->
@@ -24,13 +45,18 @@
                 </div>
 
                 <!-- Share Icon Section -->
-                <div class="text-center">
-                    <i class="fa-solid fa-share-nodes fa-lg"></i>
-                </div>
+                {{-- <div class="text-center" style="position: relative; display: inline-block;">
+                    <i id="icon_social" class="fa-solid fa-share-nodes fa-lg" style="cursor: pointer;"></i>
+                    <a id="icon_share_facebook" style="display:none; opacity: 0; position: absolute; left: -40px" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(env('APP_URL'). '/post/' . $post->slug) }}" target="_blank" class="btn">
+                        <i class="fa-brands fa-facebook fa-lg"></i>
+                    </a>
+                </div> --}}
             </div>
 
 
             <div class="content">
+            <h3>{{ $post->title }}</h3>
+
                 @php
                     $img = $post->img_thumbnail;
                     if (!str_contains($post->img_thumbnail, 'http')) {
@@ -64,22 +90,18 @@
                     @endforeach
                 </div>
             </div>
-
-
         </div>
 
-
-
-
         {{-- Khu vực bên phải --}}
-        <div class="right col-md-4">
+        <div class="right  col-md-4">
             <h4>Trending Posts</h4>
-            @php
+            <div class="card">
+                @php 
                 $maxLengthTitle = 30;
                 $maxLengthDescription = 20;
             @endphp
             @foreach ($postsHot as $item)
-                <div class="d-flex mt-2" style=" border:1px; width:100%">
+                <div class="d-flex mt-1 mb-1" style=" border:1px; width:100%">
                     <div style="width:40%">
                         @php
                             $img_post_hot = $item->img_thumbnail;
@@ -95,6 +117,33 @@
                     </div>
                 </div>
             @endforeach
+            </div>
+           
         </div>
     </div>
+
+    <div id="tablet_social" class="text-center">
+        <a title="Chia sẻ lên fb" id="icon_share_facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(env('APP_URL'). '/post/' . $post->slug) }}" ><i  class="fa-brands fa-facebook fa-lg"></i></a>
+        <a title="Bình luận" id="icon_comment"><i class="fa-regular fa-message"></i></a><br>
+        <a title="Quay lại" href="{{ route('home') }}"><i class="fa-solid fa-arrow-left"></i></a>
+    </div>
+   
+@endsection
+
+@section('script')
+    <script>
+        const tablet_social = document.querySelector('#tablet_social');
+        window.onscroll = function() {
+            if(window.scrollY > 500){
+                tablet_social.style.display = 'block'
+            }else{
+                tablet_social.style.display = 'none'
+            }
+            
+        }
+       
+        
+        
+   
+    </script>
 @endsection
