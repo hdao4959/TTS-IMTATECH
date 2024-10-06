@@ -14,10 +14,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        $this->call(TagSeeder::class);
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'admin2@gmail.com',
+            'password' => 'password',
+            'role_id' => 5,
+            'description' => 'Hải đẹp trai',
+        ]);
+        // $this->call(TagSeeder::class);
     }
 }

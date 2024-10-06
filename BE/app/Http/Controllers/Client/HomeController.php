@@ -16,19 +16,36 @@ class HomeController extends Controller
     public function homePage()
     {
         $numberPostsInMain = 20;
-        $mainPosts = Post::latest()->paginate($numberPostsInMain);
+        $mainPosts = Post::where('post_status_id', 5)->latest('id')->paginate($numberPostsInMain);
+        $popularPosts = Post::where('post_status_id', 5)->orderBy('view', 'desc')->limit(5)->get(); 
         $categories = Category::all();
         $tags = Tag::all();
-        return view('client.home', compact('mainPosts', 'categories', 'tags'));
+        return view('client.home', compact('mainPosts','popularPosts', 'categories', 'tags'));
     }
 
-    public function categoryPage(string $slug){
+    public function categoryPage(string $slug)
+    {
         $category = Category::where('slug', $slug)->firstOrFail();
         // Lấy các bài viết liên quan đến danh mục 
         $posts = Post::where([
-            'category_id' => $category->id
-        ])->get();
-        return view('client.category', compact('posts', 'category'));
+            'category_id' => $category->id,
+            'post_status_id' => 5
+        ])->paginate(12);
+        $popularPosts = Post::where('post_status_id', 5)->orderBy('view', 'desc')->limit(5)->get(); 
+        return view('client.category', compact('posts', 'popularPosts', 'category'));
+    }
+
+    public function search()
+    {
+        $keyword = $_GET['keyword'];
+        $posts = Post::with('tags')
+        ->where(function($query) use ($keyword) {
+            $query->where('title', 'like', '%' . $keyword . '%')
+                  ->orWhere('description', 'like', '%' . $keyword . '%')
+                  ->orWhere('content', 'like', '%' . $keyword . '%');
+        })
+        ->get();
+        return view('client.search', compact('posts', 'keyword'));
     }
 
     /**

@@ -23,17 +23,18 @@ class UpdatePostRequest extends FormRequest
     {
         return [
             
-                'title' => ['required'],
-                'category_id' => ['required'],
-                'description' => ['required', 'max:150'],
-                'content' => ['required'],
-                'post_status_id' => ['required']
+                'title' => 'required|unique:posts,title,' . $this->route('post'),
+                'category_id' => 'required',
+                'description' => 'required|max:150',
+                'content' => 'required',
+                'post_status_id' => 'required'
             
         ];
     }
     public function messages(){
         return [
             'title.required' => "Bạn chưa nhập Tiêu đề",
+            'title.unique' => "Tiêu đề này đã được sử dụng",
             'category_id.required' => "Bạn chưa chọn danh mục",
             'description.required' => "Bạn chưa nhập mô tả",
             'description.max:150' => "Mô tả không được nhập quá 150 ký tự",

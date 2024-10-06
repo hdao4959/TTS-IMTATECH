@@ -24,11 +24,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'homePage'])->name('home');
 Route::get('/post/{slug}', [ClientPostController::class, 'detail'])->name('post.detail');
 Route::get('/cate/{slug}', [HomeController::class, 'categoryPage'])->name('category.detail');
-
+Route::get('/search', [HomeController::class, 'search'])->name("search");
 
 Route::middleware('auth')->group(function () {
-    Route::get('/add-post', [ClientPostController::class, 'create']);
-    Route::post('/post/store', [ClientPostController::class, 'store'])->name('store');
+    // Route::get('/add-post', [ClientPostController::class, 'create']);
+    // Route::post('/post/store', [ClientPostController::class, 'store'])->name('store');
     Route::post('/comment/store', [CommentController::class, 'store'])->name('comment.store');
     Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
     Route::get('profile', [AuthController::class, 'showProfile'])->name('profile');
@@ -45,19 +45,27 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('register', [AuthController::class, 'formRegister'])->name('register');
 Route::post('/subregister', [AuthController::class, 'subregister'])->name('subregister');
 
-
-
-
-
 Route::middleware('role:5')
     ->prefix('admin')->as('admin.')->group(function () {
         Route::get('/', function () {
             return view('admin.dashboard');
         })->name('dashboard');
+        // Route::group(['prefix' => 'posts'], function(){
 
+        //     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        //         \UniSharp\LaravelFilemanager\Lfm::routes();
+        //     });
+        // });
         Route::resource('categories', CategoryController::class);
         Route::resource('posts', PostController::class);
         Route::resource('users', UserController::class);
         Route::resource('tags', TagController::class);
         Route::get('/user/{id}', [UserController::class, 'active']);
+
     });
+
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
+
+ 

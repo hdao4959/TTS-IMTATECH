@@ -42,11 +42,11 @@
                     <td>{{ $post->category->name }}</td>
                     <td>{{ $post->view }}</td>
                     <td class="">
-                        <form action="{{ route('admin.posts.destroy', $post->id) }}" method="post">
+                        <form action="{{ route('admin.posts.destroy', $post->slug) }}" method="post">
                             @csrf
                             @method('DELETE')
-                            <a href="{{ route('admin.posts.show', $post->id) }}" class="btn btn-sm btn-secondary">Chi tiết</a>
-                            <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-sm btn-warning">Sửa</a>
+                            <a href="{{ route('admin.posts.show', $post->slug) }}" class="btn btn-sm btn-secondary">Chi tiết</a>
+                            <a href="{{ route('admin.posts.edit', $post->slug) }}" class="btn btn-sm btn-warning">Sửa</a>
                             <button type="submit" onclick="return confirm('Bạn có chắc muốn xoá không?')" class="btn btn-sm btn-danger">Xoá</button>
                         </form>
                     </td>

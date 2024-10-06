@@ -23,8 +23,8 @@ class StorePostRequest extends FormRequest
     {
         return [
             
-                'title' => ['required'],
-                'img_thumbnail' => ['required', 'image'],
+                'title' => ['required', 'max:255', 'unique'],
+                'img_thumbnail' => ['required'],
                 'category_id' => ['required'],
                 'description' => ['required', 'max:150'],
                 'content' => ['required'],
@@ -35,8 +35,10 @@ class StorePostRequest extends FormRequest
     public function messages(){
         return [
             'title.required' => "Bạn chưa nhập Tiêu đề",
+            'title.max' => "Độ dài tiêu đề không quá 255 ký tự",
+            'title.unique' => "Tên bài đăng này đã tồn tại",
             'img_thumbnail.required' => "Bạn chưa chọn hình ảnh",
-            'img_thumbnail.image' => "Ảnh không đúng định dạng",
+            // 'img_thumbnail.image' => "Ảnh không đúng định dạng",
             'category_id.required' => "Bạn chưa chọn danh mục",
             'description.required' => "Bạn chưa nhập mô tả",
             'description.max:150' => "Mô tả không được nhập quá 150 ký tự",

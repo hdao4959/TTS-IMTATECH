@@ -7,8 +7,8 @@
     <div class="container">
         <div class="row main">
             <div class="col-md-8 left">
-                <h1>Tin chính</h1>
-                <div class="row head my-1">
+                <h1>Mới nhất</h1>
+                <a href="{{ route('post.detail', $mainPosts[0]->slug) }}" class="text-decoration-none text-dark row head my-1">
                     <div class="col-md-8 px-0 ">
                         <img style="width:100%" src={{ $mainPosts[0]->img_thumbnail }} alt="">
                     </div>
@@ -19,7 +19,7 @@
                         <span>{{ $mainPosts[0]->description }}</span><br>
                         <span class="text-secondary">{{ $mainPosts[0]->updated_at }}</span>
                     </div>
-                </div>
+                </a>
                 <hr>
                 <div class="row my-2">
                     @php
@@ -32,10 +32,10 @@
                                 break;
                             }
                         @endphp
-                        <div class="col-md-4 ">
+                        <a href="{{ route('post.detail', $mainPost->slug) }}" class="col-md-4 text-decoration-none text-body">
                             <h5>{{ $mainPost->title }}</h5>
                             <span>{{ $mainPost->description }}</span>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
                 <hr>
@@ -50,7 +50,7 @@
 
             <div class="col-md-4 right ">
                 <h1>Phổ biến</h1>
-                <div class="card">
+                {{-- <div class="card">
                     @foreach ($mainPosts->skip(1) as $mainPost)
                         <a href="{{ route('post.detail', $mainPost->slug) }}" class="nav-link ">
                             <div class="row">
@@ -66,7 +66,33 @@
                             </div>
                         </a>
                     @endforeach
-                </div>
+                </div> --}}
+
+                <table class="table table-hover">
+                    <tbody>
+    
+                        @foreach ($popularPosts as $popularPost)
+                        <tr>
+                            <td>
+                                <a  href="{{ route('post.detail', $popularPost->slug) }}" class="text-decoration-none text-body px-0">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-5 ">
+                                            <img class="img-fluid border" 
+                                                 src="{{ str_contains($popularPost->img_thumbnail, 'http') ? $popularPost->img_thumbnail : Storage::url($popularPost->img_thumbnail) }}" 
+                                                 alt="{{ $popularPost->title }}">
+                                        </div>
+                                        <div class="col col-sm-7">
+                                            <span>{{ $popularPost->title }}</span>
+                                            <p class="text-muted">{{ $popularPost->created_at->format('d M, Y') }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                               
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
             </div>
         </div>
