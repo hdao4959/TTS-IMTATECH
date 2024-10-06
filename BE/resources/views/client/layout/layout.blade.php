@@ -10,13 +10,23 @@
     <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         crossorigin="anonymous">
     <title>@yield('title')</title>
+    {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet"> --}}
     <style>
         body {
             position: relative;
+            /* font-family: "Open Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal; */
+            /* font-variation-settings:
+                "wdth" 100; */
         }
 
         .button-scroll-up {
-            border:1px gray solid;
+            border: 1px gray solid;
             bottom: 50px;
             right: 2%;
             position: fixed;
@@ -27,7 +37,7 @@
     @yield('script-special')
 </head>
 
-<body>
+<body class="bg-light">
 
     {{-- menu --}}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -39,7 +49,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-                  
+
                 </ul>
 
                 @if (Auth::user())
@@ -79,8 +89,9 @@
 
                 </ul>
                 <ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="d-flex" role="search" action="{{ route('search') }}">
+                        <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
+                            aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </ul>
@@ -144,7 +155,7 @@
             })
         }
     </script>
-@yield('script')
+    @yield('script')
 </body>
 
 </html>

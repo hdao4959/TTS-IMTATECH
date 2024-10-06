@@ -67,7 +67,7 @@
 
                 <div class="mt-2">
                     <p>{{ $post->description }}</p>
-                    <p>{{ $post->content }}</p>
+                    <p>{!! $post->content !!}</p>
                 </div>
             </div>
 
@@ -94,8 +94,8 @@
 
         {{-- Khu vực bên phải --}}
         <div class="right  col-md-4">
-            <h4>Trending Posts</h4>
-            <div class="card">
+            <h4>Phổ biến</h4>
+            {{-- <div class="card">
                 @php 
                 $maxLengthTitle = 30;
                 $maxLengthDescription = 20;
@@ -117,8 +117,32 @@
                     </div>
                 </div>
             @endforeach
-            </div>
-           
+            </div> --}}
+            <table class="table table-hover">
+            <tbody>
+    
+                @foreach ($popularPosts as $popularPost)
+                <tr>
+                    <td>
+                        <a  href="{{ route('post.detail', $popularPost->slug) }}" class="text-decoration-none text-body px-0">
+                            <div class="row">
+                                <div class="col-12 col-sm-5 ">
+                                    <img class="img-fluid border" 
+                                         src="{{ str_contains($popularPost->img_thumbnail, 'http') ? $popularPost->img_thumbnail : Storage::url($popularPost->img_thumbnail) }}" 
+                                         alt="{{ $popularPost->title }}">
+                                </div>
+                                <div class="col col-sm-7">
+                                    <span>{{ $popularPost->title }}</span>
+                                    <p class="text-muted">{{ $popularPost->created_at->format('d M, Y') }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </td>
+                       
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
         </div>
     </div>
 

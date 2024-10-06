@@ -7,30 +7,31 @@
         div.ck-editor__editable {
             min-height: 200px;
         }
+
         #charCount {
             font-size: 0.9em;
             color: #555;
         }
     </style>
 @endsection
-@section('script-special')
+{{-- @section('script-special')
     <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
-@endsection
+@endsection --}}
 @section('content')
-@if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-@endif
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
     <form action="{{ route('admin.posts.update', $post->id) }}" method="post" enctype="multipart/form-data">
         @csrf
-        @method("PATCH")
+        @method('PATCH')
         <div class="row">
             <!-- Cột 1 -->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="mt-2">
                     <label for="" class="form-label">Tiêu đề</label>
                     <input type="text" class="form-control" name="title" value="{{ $post->title }}">
                     @error('title')
-                    <span class="text-danger">*{{ $message }}</span>
+                        <span class="text-danger">*{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mt-2">
@@ -45,7 +46,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="mt-2">
+                {{-- <div class="mt-2">
                     <label for="" class="form-label">Hình ảnh</label>
                     <input type="file" name="img_thumbnail" id="" class="form-control">
                     @if (isset($post->img_thumbnail))
@@ -59,32 +60,53 @@
                         <img class="mt-2 mb-2 border border-4 img-fluid rounded" src="{{ $img }}" width="100%"
                             alt="">
                     @endif
+                </div> --}}
+
+                <label for="" class="mt-2">Hình ảnh</label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                            <i class="fa fa-picture-o"></i> Choose
+                        </a>
+                    </span>
+                    <input id="thumbnail" class="form-control" type="text" name="img_thumbnail">
                 </div>
+                <div class="text-center">
+                    <img id="holder" class=" mt-2 mb-2 border border-4 img-fluid rounded"
+                        src="{{ $post->img_thumbnail }}" alt="">
+                </div>
+
+
 
             </div>
 
             <!-- Cột 2 -->
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="mt-2">
                     <label for="" class="form-label">Mô tả</label>
                     <textarea name="description" class="form-control" id="input_description" cols="30" rows="3" maxlength="150">{{ $post->description }}</textarea>
                     <div id="charCount">0/150 ký tự</div>
                     @error('description')
-                <span class="text-danger">*{{ $message }}</span>
-                @enderror
+                        <span class="text-danger">*{{ $message }}</span>
+                    @enderror
                 </div>
-                <div class="mt-2">
+                {{-- <div class="mt-2">
                     <label for="" class="form-label">Nội dung</label>
                     <textarea name="content" id="editor" class="form-control" rows="10">{{ $post->content }}</textarea>
                     @error('content')
-                    <span class="text-danger">*{{ $message }}</span>
+                        <span class="text-danger">*{{ $message }}</span>
                     @enderror
-                </div>
+                </div> --}}
+                <label for="" class="form-label">Nội dung</label>
+                <textarea id="my-editor" name="content" class="form-control">{!! old('content', $post->content) !!}</textarea>
+                @error('content')
+                    <span class="text-danger">*{{ $message }}</span>
+                @enderror
                 <div class="mt-2">
                     <label for="">Trạng thái</label>
                     <select name="post_status_id" class="form-control" id="">
                         @foreach ($post_statuses as $status)
-                            <option @selected($status->id  == $post->post_status_id) value="{{ $status->id }}">{{ $status->name }}</option>
+                            <option @selected($status->id == $post->post_status_id) value="{{ $status->id }}">{{ $status->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -99,12 +121,37 @@
 @endsection
 
 @section('script')
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+
     <script>
+        // Image button
+        // $('#lfm').filemanager('image');
+
+        var route_prefix = "/laravel-filemanager";
+        $('#lfm').filemanager('image', {
+            prefix: route_prefix
+        });
+
+
+
+
+        var options = {
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+        };
+
+        CKEDITOR.replace('my-editor', options);
+
 
         const input_description = document.getElementById('input_description');
         const charCount = document.getElementById('charCount');
         const length = input_description.value.length;
         charCount.textContent = `${length}/150 ký tự`;
+
+
         input_description.addEventListener('input', function() {
             const length = input_description.value.length;
             charCount.textContent = `${length}/150 ký tự`;
@@ -115,11 +162,13 @@
         });
 
 
-        ClassicEditor.create(document.querySelector("#editor"));
+
+        // ClassicEditor.create(document.querySelector("#editor"));
 
         // document.querySelector("form").addEventListener("submit", (e) => {
         //     e.preventDefault();
         //     console.log(document.getElementById("editor").value);
         // });
+
     </script>
 @endsection

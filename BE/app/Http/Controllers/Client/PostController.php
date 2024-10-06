@@ -30,10 +30,11 @@ class PostController extends Controller
                 'post_id' => $post->id
             ]
         )->with('user')->get();
-        $postsHot = Post::orderBy('view', 'desc')->limit(5)->get();
+        $popularPosts = Post::where('post_status_id', 5)->orderBy('view', 'desc')->limit(5)->get(); 
+
         // dd($postsHot);
 
-        return view('client.post-detail', compact('post', 'postsHot', 'comments'));
+        return view('client.post-detail', compact('post', 'popularPosts', 'comments'));
     }
 
     /**

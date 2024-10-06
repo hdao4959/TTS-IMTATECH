@@ -9,8 +9,4 @@ class Tag extends Model
     use SoftDeletes;
     protected $fillable = ['name', 'slug'];
     // Mối quan hệ nhiều-nhiều với bài viết
-    public function post()
-    {
-        return $this->belongsToMany(Post::class);
-    }
 }
