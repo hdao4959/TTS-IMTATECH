@@ -31,8 +31,9 @@
                 <tr>
                     <td>{{ $row }}</td>
                     <td>{{ $user->name }}</td>
-                    <td><img src="{{ asset('storage/' . $user->avatar) }}" width="90px" height="110px"
-                            style="object-fit: cover" alt="Chưa cập nhật ảnh"></td>
+                    <td>
+                        <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('storage/avatars/avatar-mac-dinh.jpg') }}" alt="Avatar" width="90px" height="110px" style="object-fit: cover">
+                    </td>     
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
                     <td>

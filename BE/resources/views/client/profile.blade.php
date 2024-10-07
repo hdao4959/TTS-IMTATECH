@@ -41,7 +41,9 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-card text-center d-flex">
-                    <div><img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="profile-image"></div>
+                    <div>
+                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('storage/avatars/avatar-mac-dinh.jpg') }}" class="profile-image">
+                    </div>
                     <div class="text-start ms-4">
                         <h5>{{ Auth::user()->name }}</h5>
                         <p>{{ Auth::user()->email }}</p>
@@ -119,7 +121,7 @@
                                 onchange="previewImage()">
                             <img class="img-fluid mr-3" id="image-preview" style="max-width: 100px; margin-top: 10px"
                                 src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '#' }}"
-                                alt="Chưa cập nhật avatar">
+                                alt="">
                             @error('avatar')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
