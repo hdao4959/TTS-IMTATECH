@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\UserController;
@@ -62,10 +63,13 @@ Route::middleware('role:5')
         Route::resource('tags', TagController::class);
         Route::get('/user/{id}', [UserController::class, 'active']);
 
+        Route::resource('ads', AdController::class);
+        Route::get('/ad/{id}', [AdController::class, 'is_visible']);
+
     });
 
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-        \UniSharp\LaravelFilemanager\Lfm::routes();
+        // \UniSharp\LaravelFilemanager\Lfm::routes();
     });
 
  

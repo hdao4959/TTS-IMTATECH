@@ -76,7 +76,11 @@
                                 <i class="bi bi-people"></i> Tài khoản
                             </a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.ads.index')}}">
+                                <i class="bi bi-people"></i> Quảng cáo
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout')}}">
                                 <i class="bi bi-people"></i> Đăng xuất
