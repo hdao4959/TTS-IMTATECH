@@ -37,8 +37,8 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
                     <td>
-                        <a style="margin-right: 2px" href="user/{{$user->id}}" class="btn btn-sm btn-{{ $user->is_active ? 'success' : 'danger'}}">
-                            {{ $user->is_active ? 'Enabled' : 'Disabled' }}
+                        <a style="margin-right: 2px" href="user/{{$user->id}}" class="btn btn-sm btn-{{ $user->is_active ? 'danger' : 'success'}}">
+                            {{ $user->is_active ? 'Không hoạt động' : 'Hoạt động' }}
                            </a>
                         <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#userDetailModal{{$user->id}}">Chi tiết</button>
                         <a href="{{ route('admin.users.edit', $user) }}"> <button
