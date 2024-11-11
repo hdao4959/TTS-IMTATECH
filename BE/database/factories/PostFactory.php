@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\Post_status;
 use Illuminate\Database\Eloquent\Factories\Factory;
-uSe Illuminate\Support\Str;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -27,7 +27,7 @@ class PostFactory extends Factory
             'img_thumbnail' => fake()->imageUrl(800, 500, 'img_thumbnail'),
             'description' => fake()->sentence(),
             'content' => fake()->text(1000),
-            'user_id'=>3,
+            'user_id' => 10,
             'view' => 1000,
             'category_id' => Category::inRandomOrder()->first()->id,
             'post_status_id' => Post_status::inRandomOrder()->first()->id

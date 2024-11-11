@@ -24,12 +24,13 @@ class AuthController extends Controller
         // Validate input
         $credentials = $request->validate(
             [
-                'email' => 'required|email',
-                'password' => 'required|min:8',
+                'email' => 'required|email|exists:users,email',  // Kiểm tra email có tồn tại trong bảng 'users'
+                'password' => 'required|min:8',  // Kiểm tra mật khẩu tối thiểu 8 ký tự
             ],
             [
                 'email.required' => 'Email không được để trống.',
                 'email.email' => 'Email không hợp lệ.',
+                'email.exists' => 'Email không tồn tại trong hệ thống.',
                 'password.required' => 'Mật khẩu không được để trống.',
                 'password.min' => 'Mật khẩu phải chứa ít nhất 8 ký tự.',
             ]
@@ -66,25 +67,37 @@ class AuthController extends Controller
         $roles = Role::query()->take(4)->get();
         return view('auth.register', compact('roles'));
     }
-    public function subregister(UserRequest $request)
+    public function subregister(Request $request)
     {
-        //         dd(request()->all());
+                // dd(request()->all());
 
         // đăng ký người dùng vào hệ thống
-        $data = $request->validated();
-        // dd($data)
-        $data = request()->except('avatar');
-        // nếu user ko nhập ảnh
-        $data['avatar'] = '';
-        //nếu user nhập ảnh
-        if (request()->hasFile('avatar')) {
-            $path_img = $request->file('avatar')->store('avatars', 'public');
-            $data['avatar'] = $path_img;
-        }
-
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ], [
+            'name.required' => 'Tên là bắt buộc.',
+            'name.string' => 'Tên phải là chuỗi văn bản.',
+            'name.max' => 'Tên không được dài quá 255 ký tự.',
+            'email.required' => 'Email là bắt buộc.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.unique' => 'Email này đã tồn tại.',
+            'password.required' => 'Mật khẩu là bắt buộc.',
+            // 'password.string' => 'Mật khẩu phải là chuỗi văn bản.',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
+            // 'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+        ]);
+        
+        // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+        $data['password'] = bcrypt($data['password']);
+       
         // dd($data);
         //thêm user vào db
-        User::create($data);
+
+        $user=User::create($data);
+        // $user->role_id=$data['role_id'];
+        // dd($user);
 
         return redirect()->route('login')->with('msg', 'Đăng ký thành công');
     }
