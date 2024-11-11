@@ -24,6 +24,10 @@
             /* font-variation-settings:
                 "wdth" 100; */
         }
+        body.login-page #carouselExampleInterval {
+    display: none;
+}
+
 
         .button-scroll-up {
             border: 1px gray solid;
@@ -37,12 +41,12 @@
     @yield('script-special')
 </head>
 
-<body class="bg-light">
+<body class="bg-light @yield('body-class')">
 
     {{-- menu --}}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">News</a>
+            <a class="navbar-brand" href="{{route('home')}}">Engadget</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -154,6 +158,20 @@
                 behavior: 'smooth'
             })
         }
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.getElementById('carouselExampleInterval');
+        
+        // Kiểm tra nếu URL chứa "/login"
+        if (window.location.href.includes('/login')) {
+            if (slider) {
+                slider.style.display = 'none'; // Ẩn slider
+            }
+        }
+    });
+</script>
+
     </script>
     @yield('script')
 </body>
